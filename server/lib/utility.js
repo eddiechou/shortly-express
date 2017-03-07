@@ -41,10 +41,10 @@ exports.createCookieHash = function() {
   return hash.digest('hex');
 };
 
-exports.createCookieHash = function() {
-  var random = crypto.randomBytes(32).toString('hex');
-  var hmac = crypto.createHmac('sha1', 'a secret');
+// exports.createCookieHash = function() {
+//   var random = crypto.randomBytes(32).toString('hex');
+//   var hmac = crypto.createHmac('sha1', 'a secret');
 
-  hmac.update(random);
-  return hmac.digest('hex');
-};
+//   hmac.update(random);
+//   return hmac.digest('hex');
+// };
