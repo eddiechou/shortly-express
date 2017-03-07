@@ -26,6 +26,44 @@ function(req, res) {
   res.render('index');
 });
 
+app.get('/login', 
+function(req, res) {
+  res.render('login');
+});
+
+app.get('/signup', 
+function(req, res) {
+  res.render('signup');
+});
+
+app.post('/signup',
+function(req, res) {
+  // Insert new user's information into database
+  // Make salt string
+  var salt = util.createSalt();
+  // Hash the concatenated string using SHA-256
+  var hash = util.hashPassword(req.body.password, salt);
+  // Create params object to send to user model method call
+  var params = [req.body.username, hash, salt];
+
+  // Invoke user model dbQuery method
+  Users.userPost(params, function(err, results) {
+    if (err) { 
+      // redirect
+      console.log(err);
+      res.redirect('/signup');
+    } else {
+      res.statusCode = 201;
+      res.redirect('/');
+    // TODO: redirect to ALL LINKS with the user's links
+      
+    }
+
+
+  });
+
+});
+
 app.get('/create', 
 function(req, res) {
   res.render('index');

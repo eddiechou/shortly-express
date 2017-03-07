@@ -26,7 +26,17 @@ module.exports = function(db) {
   /************************************************************/
   /*          Add additional schema queries here              */
   /************************************************************/
+  .then(function() {
+    // create users table
+    return db.queryAsync('CREATE TABLE IF NOT EXISTS users (\
+      id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,\
+      username VARCHAR(255) NOT NULL UNIQUE,\
+      password VARCHAR(64) NOT NULL,\
+      salt VARCHAR(16),\
+      timestamp TIMESTAMP\
+      );');
 
+  })
   .error(function(err) {
     console.log(err);
   });

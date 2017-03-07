@@ -21,3 +21,16 @@ exports.isValidUrl = function(url) {
 // Add additional utility functions below
 /************************************************************/
 
+
+exports.hashPassword = function(password, salt) {
+
+  const hash = crypto.createHmac('sha256', salt)
+    .update(password)
+    .digest('hex');
+  
+  return hash;
+};
+
+exports.createSalt = function() {
+  return crypto.randomBytes(8).toString('hex');
+};
