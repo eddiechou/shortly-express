@@ -12,5 +12,12 @@ module.exports = {
     db.query(queryStr, params, function(err, results) {
       callback(err, results);
     });
+  },
+  getLoginInfo: function(params, callback) {
+    // send back salt and hashedPassword
+    var queryStr = 'SELECT u.salt, u.password from users u WHERE u.username = ?;';
+    db.query(queryStr, params, function(err, results) {
+      callback(err, results);
+    });
   }
 };

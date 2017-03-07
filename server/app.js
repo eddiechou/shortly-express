@@ -36,6 +36,40 @@ function(req, res) {
   res.render('signup');
 });
 
+app.post('/login',
+function(req, res) {
+  // Set up params with username to check
+  var params = [req.body.username];
+  // Get login information for the user (salt + hashedPassword)
+  Users.getLoginInfo(params, function(err, results) {
+    if (err) {
+      console.log(err);
+    } else {
+      // results should contain the salt and hashedPassword
+      
+      // Didn't find username in db
+      if (!results.length) {
+        res.redirect('/login');
+      } else {  // Found username in db
+        console.log('LOGIN call results', results);
+        // Hash the password the user sends in
+        var result = results[0];
+        var storedHashedPW = result.password;
+        var newlyHashedPW = util.hashPassword(req.body.password, result.salt);
+        // res.sendStatus(201);
+        // Compare the newly hashed password with the hashedPassword from the db
+        if (newlyHashedPW === storedHashedPW) {
+          res.redirect('/');
+        } else {
+          res.redirect('/login');
+        }
+      }
+    }
+  });
+
+
+});
+
 app.post('/signup',
 function(req, res) {
   // Insert new user's information into database
@@ -49,8 +83,6 @@ function(req, res) {
   // Invoke user model dbQuery method
   Users.userPost(params, function(err, results) {
     if (err) { 
-      // redirect
-      console.log(err);
       res.redirect('/signup');
     } else {
       res.statusCode = 201;
@@ -166,3 +198,4 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+// 
