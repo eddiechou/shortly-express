@@ -13,7 +13,7 @@ var port = 4568;
 // Remove the 'x' from beforeEach block when working on
 // authentication tests.
 /************************************************************/
-var xbeforeEach = function() {};
+var xbeforeEach = function(callback) {};
 /************************************************************/
 
 
@@ -47,7 +47,7 @@ describe('', function() {
     /**************************************************************************************/
     /* TODO: If you create a new MySQL tables, add it to the tablenames collection below. */
     /**************************************************************************************/
-    var tablenames = ['links', 'clicks', 'users'
+    var tablenames = ['links', 'clicks', 'sessions', 'users'
 ];
 
     db.connect(function(err) {
@@ -328,7 +328,7 @@ describe('', function() {
     });
   });
 
-  xdescribe('Express Middleware', function() {
+  describe('Express Middleware', function() {
     var cookieParser = require('../server/middleware/cookieParser.js');
     var sessionParser = require('../server/middleware/sessionParser.js');
 
@@ -434,6 +434,7 @@ describe('', function() {
         });
       });
 
+      // Test 20
       it('assigns a username and user_id property to the session object if the session is assigned to a user', function(done) {
         var requestWithoutCookie = httpMocks.createRequest();
         var response = httpMocks.createResponse();
@@ -476,6 +477,7 @@ describe('', function() {
         });
       });
 
+      // Test 22
       it('removes session from database if used by a different browser', function(done) {
         var client = 'Mozilla/5.0 (compatible; MSIE 9.0; Windows Phone OS 7.5; Trident/5.0; IEMobile/9.0)';
         var maliciousClient = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36';

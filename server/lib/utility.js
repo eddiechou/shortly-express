@@ -34,3 +34,17 @@ exports.hashPassword = function(password, salt) {
 exports.createSalt = function() {
   return crypto.randomBytes(8).toString('hex');
 };
+
+exports.createCookieHash = function() {
+  var hash = crypto.createHash('sha1');
+  hash.update(crypto.randomBytes(32).toString('hex'));
+  return hash.digest('hex');
+};
+
+exports.createCookieHash = function() {
+  var random = crypto.randomBytes(32).toString('hex');
+  var hmac = crypto.createHmac('sha1', 'a secret');
+
+  hmac.update(random);
+  return hmac.digest('hex');
+};

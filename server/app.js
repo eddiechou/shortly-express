@@ -9,6 +9,8 @@ var Links = require('./models/link');
 var Sessions = require('./models/session');
 var Click = require('./models/click');
 
+var cookieParser = require('./middleware/cookieParser');
+
 var app = express();
 
 app.set('views', __dirname + '/views');
