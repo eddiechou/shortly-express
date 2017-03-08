@@ -35,9 +35,9 @@ exports.createSalt = function() {
   return crypto.randomBytes(8).toString('hex');
 };
 
-exports.createCookieHash = function() {
+exports.createHash = function(client, salt) {
   var hash = crypto.createHash('sha1');
-  hash.update(crypto.randomBytes(32).toString('hex'));
+  hash.update(client + salt);
   return hash.digest('hex');
 };
 

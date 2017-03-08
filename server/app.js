@@ -10,6 +10,7 @@ var Sessions = require('./models/session');
 var Click = require('./models/click');
 
 var cookieParser = require('./middleware/cookieParser');
+var sessionParser = require('./middleware/sessionParser');
 
 var app = express();
 
@@ -22,6 +23,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // Serve static files from ../public directory
 app.use(express.static(path.join(__dirname, '../public')));
+
+// Call cookie parser and session parser on each request
+// app.use(cookieParser);
+// app.use(sessionParser);
 
 app.get('/', 
 function(req, res) {
@@ -87,6 +92,7 @@ function(req, res) {
     if (err) { 
       res.redirect('/signup');
     } else {
+
       res.statusCode = 201;
       res.redirect('/');
     // TODO: redirect to ALL LINKS with the user's links

@@ -513,7 +513,8 @@ describe('', function() {
     });
   });
 
-  xdescribe('Sessions and cookies', function() {
+  // Test 23
+  describe('Sessions and cookies', function() {
     var requestWithSession;
     var cookieJar;
 

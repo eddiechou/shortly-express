@@ -36,5 +36,38 @@ module.exports = {
     db.query(queryStr, params, function(err, results) {
       callback(err, results);
     });
+  },
+  initialize: function(client) {
+    var salt = util.createSalt();
+    var hash = util.createHash(client, salt);
+
+    var queryString = 'INSERT INTO sessions SET ?';
+    return db.queryAsync(queryString, { hash: hash, salt: salt }).return(hash);
+  },
+  getSession: function(hash) {
+    // query for the row that corresponds to the hash
+    var queryStr = 'SELECT * FROM sessions WHERE hash = ?';
+
+
+    return db.queryAsync(queryStr, hash).then(function(results) {
+      var session = results[0][0];
+
+      // didn't find
+      if (!session || !session.userId) {
+        return session;
+      }
+
+      var queryStr2 = 'SELECT u.username from users u WHERE id = ?';
+      return db.queryAsync(queryStr2, session.user_id).then(function(results) {
+        session.user = results[0][0];
+        return session;
+      });
+
+    });
+  },
+  destroySession: function(hash) {
+    var queryStr = 'DELETE FROM sessions WHERE hash = ?';
+
+    db.queryAsync(queryStr, hash);
   }
 };

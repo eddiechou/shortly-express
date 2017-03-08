@@ -13,9 +13,7 @@ var parseCookies = function(req, res, next) {
       req.cookies[cookieTuple[0]] = cookieTuple[1];
     });
 
-  } //else {
-    //sessionParser();
-  //}
+  } 
   next();
 };
 

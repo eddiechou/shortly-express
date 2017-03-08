@@ -32,7 +32,7 @@ module.exports = function(db) {
       id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,\
       username VARCHAR(255) NOT NULL UNIQUE,\
       password VARCHAR(64) DEFAULT NULL ,\
-      salt VARCHAR(16),\
+      salt VARCHAR(40),\
       timestamp TIMESTAMP\
       );');
 
@@ -43,7 +43,7 @@ module.exports = function(db) {
       id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,\
       hash VARCHAR(64) NOT NULL,\
       user_id INT DEFAULT NULL,\
-      client VARCHAR(256),\
+      salt VARCHAR(40),\
       timestamp TIMESTAMP\
       );');
 
