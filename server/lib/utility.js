@@ -41,6 +41,12 @@ exports.createHash = function(client, salt) {
   return hash.digest('hex');
 };
 
+exports.compareHash = function(attempted, stored, salt) {
+  var attempt = this.createHash(attempted, salt);
+  return stored === attempt;
+};
+
+
 // exports.createCookieHash = function() {
 //   var random = crypto.randomBytes(32).toString('hex');
 //   var hmac = crypto.createHmac('sha1', 'a secret');

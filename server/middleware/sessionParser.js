@@ -105,8 +105,8 @@ var createSession = function(req, res, next) {
 };
 
 var createSession = function(req, res, next) {
-  var client = req.get('user-agent');
-  // console.log('*********client: ', client);
+  var client = req.headers['user-agent'];
+  console.log('*********client: ', client);
   // if no cookies
   if (!req.cookies.shortlyid) {
     // init a new cookie
@@ -114,7 +114,12 @@ var createSession = function(req, res, next) {
       console.log('initial hash: ', hash);
       // attach the cookie
       res.cookie('shortlyid', hash);
-      next();
+      // attach session obj to req
+      Sessions.getSession(hash).then(function(session) {
+        req.session = session;
+        next();
+      });
+      
     });
   }
   // if cookie exists
@@ -128,7 +133,8 @@ var createSession = function(req, res, next) {
     }
 
     // Check if valid client
-    if (util.createHash(client, session.salt) !== session.hash) {
+    // if (util.createHash(client, session.salt) !== session.hash) {
+    if (!util.compareHash(client, session.hash, session.salt)) {
       // destroy the row
       return Sessions.destroySession(session.hash).then(function() {
         res.clearCookie('shortlyid');

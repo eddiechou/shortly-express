@@ -68,6 +68,6 @@ module.exports = {
   destroySession: function(hash) {
     var queryStr = 'DELETE FROM sessions WHERE hash = ?';
 
-    db.queryAsync(queryStr, hash);
+    return db.queryAsync(queryStr, hash);
   }
 };
